@@ -43,6 +43,19 @@
   "sameAs": []
 }
 </script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18494656217">
+</script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  /* Consentimento: começa negado e só é liberado se o visitante aceitar o aviso de cookies */
+  gtag('consent', 'default', {ad_storage:'denied', ad_user_data:'denied', ad_personalization:'denied', analytics_storage:'denied', wait_for_update:500});
+  try{ if(localStorage.getItem('cookies')==='ok'){ gtag('consent','update',{ad_storage:'granted',ad_user_data:'granted',ad_personalization:'granted',analytics_storage:'granted'}); } }catch(e){}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-18494656217');
+</script>
 <script>document.documentElement.classList.add("js");(function(){var d=document.documentElement,g=function(){requestAnimationFrame(function(){d.classList.add("ready")})};window.addEventListener("load",g);setTimeout(g,2500)})()</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -398,6 +411,21 @@ section h2::after{content:"";display:block;width:56px;height:3px;margin-top:12px
   .hero-mark:hover path,.hero-mark:hover rect{animation:draw 1.6s ease both}
 }
 @media(max-width:860px){.hero-mark{padding:14px;margin:-14px}.hero-mark path,.hero-mark rect{stroke-width:5}}
+
+/* aviso de cookies e privacidade */
+.ck{position:fixed;left:16px;bottom:16px;z-index:60;max-width:440px;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;padding:16px 18px;box-shadow:0 14px 34px rgba(0,0,0,.3);font-size:.92rem;line-height:1.5}
+.ck[hidden]{display:none}
+.ck p{margin:0 0 12px;max-width:none}
+.ck a{color:var(--accent)}
+.ck .row{display:flex;gap:10px;flex-wrap:wrap}
+.ck button{font:inherit;font-weight:600;padding:9px 16px;border-radius:8px;cursor:pointer;border:1px solid var(--brand);background:var(--brand);color:var(--brand-ink)}
+.ck button.sec{background:transparent;color:var(--ink);border-color:var(--line)}
+@media(max-width:520px){.ck{left:10px;right:10px;bottom:10px;max-width:none}}
+.priv{padding:56px 0;background:var(--surface);border-top:1px solid var(--line)}
+.priv h2{margin-bottom:10px}
+.priv p,.priv li{max-width:78ch;color:var(--muted);font-size:.95rem}
+.priv ul{margin:0 0 12px;padding-left:22px}
+footer a{color:inherit}
 </style>
 </head>
 <body>
@@ -692,13 +720,54 @@ section h2::after{content:"";display:block;width:56px;height:3px;margin-top:12px
 
 </main>
 
+<section class="priv" id="privacidade">
+  <div class="wrap">
+    <h2>Privacidade e cookies</h2>
+    <p>Este site é informativo e não tem formulário de cadastro. Os dados que tratamos são os seguintes:</p>
+    <ul>
+      <li><strong>Dados de navegação</strong> (páginas visitadas, cliques e tipo de aparelho), coletados por cookies da Google Tag, <strong>somente se você aceitar</strong> o aviso de cookies. Usamos esses dados para medir a visita ao site e a eficácia dos anúncios.</li>
+      <li><strong>Dados que você nos envia pelo WhatsApp</strong> ao entrar em contato. Eles são usados apenas para responder ao seu contato e analisar o seu caso, com sigilo profissional.</li>
+    </ul>
+    <p>Você pode recusar os cookies no aviso, apagar os dados do navegador a qualquer momento e pedir informações, correção ou exclusão dos seus dados pelo WhatsApp (64) 99267-2122, conforme a Lei Geral de Proteção de Dados (Lei 13.709/2018). Não vendemos dados.</p>
+    <p><button type="button" class="btn line" id="ck-reabrir" style="color:inherit;border-color:var(--line)">Alterar minha escolha de cookies</button></p>
+  </div>
+</section>
+
 <footer>
   <div class="wrap">
     <p>© 2026 Lima e Lima Advogados. Rua Martins, 1026, Vila Fátima, Jataí - GO, CEP 75803-085. Atendimento de segunda a sábado, das 7h às 19h.</p>
-    <p>CNPJ 47.424.136/0001-92. Todos os direitos reservados.</p>
+    <p>CNPJ 47.424.136/0001-92. Todos os direitos reservados. <a href="#privacidade">Privacidade e cookies</a></p>
     <p>As informações deste site têm caráter informativo e não substituem a consulta com um advogado. Não garantimos resultados, pois cada caso depende de análise individual.</p>
   </div>
 </footer>
+
+
+<div class="ck" id="ck" role="dialog" aria-live="polite" aria-label="Aviso de cookies" hidden>
+  <p>Usamos cookies para medir as visitas e a eficácia dos nossos anúncios. Você pode aceitar ou recusar. <a href="#privacidade">Saiba mais</a></p>
+  <div class="row"><button type="button" id="ck-ok">Aceitar</button><button type="button" class="sec" id="ck-no">Recusar</button></div>
+</div>
+
+<script>
+(function(){
+  /* Se tiver o "rótulo" da conversão do Google Ads (parte depois da barra em AW-18494656217/XXXX), coloque aqui: */
+  var ROTULO_CONVERSAO = "";
+  var ck=document.getElementById("ck");
+  function ler(){try{return localStorage.getItem("cookies")}catch(e){return null}}
+  function gravar(v){try{localStorage.setItem("cookies",v)}catch(e){}}
+  function conceder(ok){var v=ok?"granted":"denied";gtag("consent","update",{ad_storage:v,ad_user_data:v,ad_personalization:v,analytics_storage:v})}
+  if(!ler())ck.hidden=false;
+  document.getElementById("ck-ok").onclick=function(){gravar("ok");conceder(true);ck.hidden=true};
+  document.getElementById("ck-no").onclick=function(){gravar("no");conceder(false);ck.hidden=true};
+  document.getElementById("ck-reabrir").onclick=function(){ck.hidden=false};
+  /* conta cada clique em um botão de WhatsApp */
+  document.addEventListener("click",function(e){
+    var a=e.target.closest&&e.target.closest('a[href*="wa.me"]');
+    if(!a||typeof gtag!=="function")return;
+    gtag("event","whatsapp_click",{link_url:a.href});
+    if(ROTULO_CONVERSAO)gtag("event","conversion",{send_to:"AW-18494656217/"+ROTULO_CONVERSAO});
+  },true);
+})();
+</script>
 
 <a class="float" target="_blank" rel="noopener" href="https://wa.me/5564992672122?text=Ol%C3%A1%2C%20fui%20v%C3%ADtima%20de%20golpe%20ou%20fraude%20e%20gostaria%20de%20falar%20com%20um%20advogado.">WhatsApp</a>
 
